@@ -6,6 +6,8 @@ import 'package:mydompet/utils/color.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
+import 'home/home_form_page.dart';
+
 class BottomNavigation extends StatefulWidget {
   static const String routeName = '/bottomNavigation';
   const BottomNavigation({super.key});
@@ -27,35 +29,22 @@ class _BottomNavigationState extends State<BottomNavigation> {
     ];
   }
 
+  PersistentBottomNavBarItem barItem(IconData icon, String title, [Color? color] ) {
+    return  PersistentBottomNavBarItem(
+        icon: Icon(icon, color: color),
+        title: title,
+        activeColorPrimary: bottomNavActive,
+        inactiveColorPrimary: bottomNavInactive,
+      );
+  } 
+
   List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
-          PersistentBottomNavBarItem(
-              icon: const Icon(Icons.home),
-              title: ("Home"),
-              activeColorPrimary: bottomNavActive,
-              inactiveColorPrimary: bottomNavInactive,
-          ),
-          PersistentBottomNavBarItem(
-              icon: const Icon(Icons.shopping_bag),
-              title: ("Cash"),
-              activeColorPrimary: bottomNavActive,
-              inactiveColorPrimary: bottomNavInactive,
-          ),     PersistentBottomNavBarItem(
-              icon: const Icon(Icons.abc),
-              title: ("Test"),
-              activeColorPrimary: bottomNavActive,
-              inactiveColorPrimary: bottomNavInactive,
-          ),     PersistentBottomNavBarItem(
-              icon: const Icon(Icons.money),
-              title: ("Settings"),
-              activeColorPrimary: bottomNavActive,
-              inactiveColorPrimary: bottomNavInactive,
-          ),     PersistentBottomNavBarItem(
-              icon: const Icon(Icons.money),
-              title: ("Settings"),
-              activeColorPrimary: bottomNavActive,
-              inactiveColorPrimary: bottomNavInactive,
-          ),
+          barItem(Icons.home, "Home"),
+          barItem(Icons.shopping_bag, "Cash"),
+          barItem(Icons.attach_money, "Pay", Colors.white),
+          barItem(Icons.list_alt, "History"),
+          barItem(Icons.settings, "Setting"),
       ];
   }
   @override
@@ -93,8 +82,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
       ),
       navBarStyle: NavBarStyle.style15,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: bottomNavActive,
         onPressed: () {
           provider.setBalanceAmount = "1000000";
+          Navigator.pushNamed(context, HomeFormPage.routeName);
         },
         child: const Icon(Icons.add),
       ),

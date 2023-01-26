@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mydompet/providers/balance_provider.dart';
+import 'package:mydompet/providers/cash_provider.dart';
 import 'package:mydompet/utils/asset.dart';
 import 'package:mydompet/utils/dimen.dart';
 import 'package:mydompet/utils/helper.dart';
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('My Balance', style: defaultTextWhite),
+                            Text("My Balance", style: defaultTextWhite),
                             Text("Rp. ${balanceProvider.balanceAmount}", 
                                 style: balanceText),
                           ],
@@ -88,12 +89,35 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               verticalSpaceMD(),
-              const RecentActivity(
-                title: 'test',
-                date: '01-12-2022',
-                price: '100000',
-              )
-      
+              Consumer<CashProvider>(
+                builder: (context, provider, child){
+                  print("test");
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Recent Activity", style: recentActivity),
+                      verticalSpaceSM(),
+                      SizedBox(
+                        height: SizeConfig(context).parentHeight(50),
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: provider.cashList?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final balance = provider.cashList!.elementAt(index);
+                            return ListTile(
+                              leading: Image.asset(SPLASH_LOGO),
+                              title: Text(balance.title, style: listTileTitle),
+                              subtitle: Text(balance.date, style: listTileSubtitle),
+                              trailing: Text("Rp ${balance.price}", style: listTileTrailing),
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  );
+                }
+              ),
+              verticalSpaceMD()
             ],
           ),
         ),
@@ -123,23 +147,21 @@ class _RecentActivityState extends State<RecentActivity> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Recent Activity', style: appBarTitle),
+        Text("Recent Activity", style: recentActivity),
         verticalSpaceSM(),
         SizedBox(
           height: SizeConfig(context).parentHeight(50),
-          child: Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Image.asset(SPLASH_LOGO),
-                  title: Text(widget.title, style: listTileTitle),
-                  subtitle: Text(widget.date, style: listTileSubtitle),
-                  trailing: Text("Rp ${widget.price}", style: listTileTrailing),
-                );
-              },
-            ),
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: Image.asset(SPLASH_LOGO),
+                title: Text(widget.title, style: listTileTitle),
+                subtitle: Text(widget.date, style: listTileSubtitle),
+                trailing: Text("Rp ${widget.price}", style: listTileTrailing),
+              );
+            },
           ),
         )
       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mydompet/models/cash_model.dart';
 
 class BalanceProvider with ChangeNotifier {
   String _balanceAmount = "0";
@@ -7,6 +8,6 @@ class BalanceProvider with ChangeNotifier {
     _balanceAmount = val;
     notifyListeners();
   }
-  
+
   String get balanceAmount => _balanceAmount;
 }
