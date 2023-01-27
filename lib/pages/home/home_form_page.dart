@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:mydompet/providers/cash_provider.dart';
+import 'package:mydompet/utils/color.dart';
 import 'package:mydompet/utils/helper.dart';
 import 'package:mydompet/utils/sizeconfig.dart';
 import 'package:mydompet/widgets/custom_appbar.dart';
@@ -65,13 +66,13 @@ class _HomeFormPageState extends State<HomeFormPage> {
   Widget build(BuildContext context) {
     cashProvider = context.watch<CashProvider>();
     return Scaffold(
-      appBar: const CustomAppBar(title: "Textone", canBack: true),
+      appBar: const CustomAppBar(title: "Form", canBack: true),
       resizeToAvoidBottomInset: false,
       body: LoaderOverlay(
         child: Form(
           key: _formKey,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Column(
               children: [
                 verticalSpaceMD(),
@@ -92,6 +93,31 @@ class _HomeFormPageState extends State<HomeFormPage> {
                   controller: cashProvider.dateController
                 ),
                 verticalSpaceMD(),
+                Row(
+                  children: [
+                    Flexible(
+                      child: RadioListTile(
+                        title: const Text("Income"),
+                        value: 0, 
+                        groupValue: cashProvider.cashType, 
+                        onChanged: (value) {
+                          cashProvider.setCashType = value;
+                        },
+                      ),
+                    ),
+                    Flexible(
+                      child: RadioListTile(
+                        title: const Text("Expense"),
+                        value: 1, 
+                        groupValue: cashProvider.cashType, 
+                        onChanged: (value) {
+                          cashProvider.setCashType = value; 
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                verticalSpaceMD(),
                 SizedBox(
                   width: SizeConfig(context).parentWidth(100),
                   child: ElevatedButton(
@@ -99,7 +125,9 @@ class _HomeFormPageState extends State<HomeFormPage> {
                       submit(context);
                       cashProvider.clearController();
                     },
-                    style: ElevatedButton.styleFrom(shape: const StadiumBorder()), 
+                    style: ElevatedButton.styleFrom(
+                        shape: const StadiumBorder(), 
+                        backgroundColor: appTheme), 
                     child: const Text("Submit")
                   ),
                 ),

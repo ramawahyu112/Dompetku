@@ -3,6 +3,7 @@ import 'package:mydompet/pages/splash_screen/splash_screen.dart';
 import 'package:mydompet/providers/balance_provider.dart';
 import 'package:mydompet/providers/cash_provider.dart';
 import 'package:mydompet/route.dart' as router;
+import 'package:mydompet/utils/color.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       ],
       builder: (context, child) => MaterialApp(
           theme: ThemeData(
-            primaryColor: Colors.white54
+            primaryColor: Colors.white54,
+            appBarTheme: AppBarTheme(backgroundColor: appTheme),
           ),
           initialRoute: SplashScreen.routeName,
           onGenerateRoute: router.generateRoute,

@@ -8,17 +8,20 @@ const String columnId    = 'id';
 const String columnTitle = 'title';
 const String columnPrice = 'price';
 const String columnDate  = 'date';
+const String columnCashType  = 'cashtype';
 
 class CashModel{
    int? id;
    String title, date;
    double price;
+   int cashType;
 
   CashModel({
     this.id, 
     required this.title, 
     required this.price, 
-    required this.date
+    required this.date,
+    required this.cashType,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +29,7 @@ class CashModel{
       columnTitle:title,
       columnPrice: price,
       columnDate: date,
+      columnCashType: cashType
     };
     if (id != null) {
       map[columnId] = id;
@@ -38,6 +42,7 @@ class CashModel{
     title: map[columnTitle],
     price: map[columnPrice], 
     date: map[columnDate],
+    cashType: map[columnCashType],
   );
 
 }
@@ -61,7 +66,8 @@ class CashDatabase {
         $columnId integer primary key autoincrement, 
         $columnTitle text not null, 
         $columnPrice real not null,
-        $columnDate text not null)
+        $columnDate text not null,
+        $columnCashType integer not null)
       ''');
     });
     return db;
@@ -92,7 +98,8 @@ class CashDatabase {
           columnId, 
           columnTitle, 
           columnPrice, 
-          columnDate],
+          columnDate,
+          columnCashType],
         where: '$columnId = ?',
         whereArgs: [id]);
     if (maps.isNotEmpty) {

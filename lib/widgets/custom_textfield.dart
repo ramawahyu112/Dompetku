@@ -53,7 +53,7 @@ class _CustomTextFieldsState extends State<CustomTextFields> {
                 context: context, 
                 initialDate: DateTime.now(), 
                 firstDate: DateTime(1945), 
-                lastDate: DateTime(2030),
+                lastDate: DateTime(2090),
               );
               if (date != null ){
                 String dateFormated = DateFormat('dd-MM-yyyy').format(date);

@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                       verticalSpaceSM(),
                       SizedBox(
                         height: SizeConfig(context).parentHeight(50),
-                        child: provider.cashList!.isEmpty 
+                        child: provider.cashList == null || provider.cashList!.isEmpty 
                         ? const Center(child: Text("No Activity Found"))
                         : ListView.builder(
                             scrollDirection: Axis.vertical,
@@ -111,7 +111,9 @@ class _HomePageState extends State<HomePage> {
                               return ListTile(
                                 onTap: () {
                                     provider.setIdCash = balance.id;
-                                    Navigator.push(context, MaterialPageRoute(builder: (_) => const HomeFormPage()));
+                                    Navigator.push(context, 
+                                        MaterialPageRoute(
+                                          builder: (_) => const HomeFormPage()));
                                 },
                                 onLongPress: () {
                                   showDialog(context: context, builder: (context) {
@@ -139,9 +141,21 @@ class _HomePageState extends State<HomePage> {
                                   });
                                 },
                                 leading: Image.asset(SPLASH_LOGO),
-                                title: Text(balance.title, style: listTileTitle),
-                                subtitle: Text(balance.date, style: listTileSubtitle),
-                                trailing: Text(formatCurrency(balance.price), style: listTileTrailing),
+                                title: Text(
+                                    balance.title, 
+                                    style: listTileTitle,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis
+                                ),
+                                subtitle: Text(
+                                    balance.date, 
+                                    style: listTileSubtitle,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis
+                                ),
+                                trailing: Text(
+                                    formatCurrency(balance.price),
+                                    style: listTileTrailing(balance.cashType == 1 ? statusExpense : appDefault)),
                               );
                             },
                           ),
@@ -158,8 +172,9 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: appTheme,
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const HomeFormPage()));
-
+          Navigator.push(context, 
+              MaterialPageRoute(
+                builder: (_) => const HomeFormPage()));
         },
         child: const Icon(Icons.add),
       ),

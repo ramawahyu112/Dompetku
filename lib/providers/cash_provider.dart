@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 import '../models/cash_model.dart';
-import 'package:collection/collection.dart';
 
 class CashProvider with ChangeNotifier {
   List<CashModel>? _cashList;
   int? _idCash;
+  int? _cashType;
   double? _balanceAmount;
   final database = CashDatabase();
 
@@ -28,6 +28,11 @@ class CashProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set setCashType(val) {
+    _cashType = val;
+    notifyListeners();
+  }
+
   set setBalance(val) {
     _balanceAmount = val;
     notifyListeners();
@@ -45,6 +50,7 @@ class CashProvider with ChangeNotifier {
 
   List<CashModel>? get cashList => _cashList;
   int? get idCash => _idCash;
+  int? get cashType => _cashType;
   double? get balanceAmount => _balanceAmount;
   TextEditingController get activityController => _activityController;
   TextEditingController get priceController => _priceController;
@@ -55,11 +61,13 @@ class CashProvider with ChangeNotifier {
     _activityController.clear();
     _priceController.clear();
     _dateController.clear();
+    _cashType = null;
   }
 
   getAllData() async {
     setCash = await database.select();
-    var balance = _cashList!.fold(0.0, (pV, cV) => pV + cV.price);
+    var balance = (balanceAmount ?? 0.0) 
+          + _cashList!.fold(0.0, (pV, cV) => pV + cV.price);
     setBalance = balance;
   }
 
@@ -95,8 +103,16 @@ class CashProvider with ChangeNotifier {
       id: _idCash,
       title: activityController.text, 
       price: double.parse(priceController.text), 
-      date: dateController.text
+      date: dateController.text,
+      cashType: _cashType!
     );
+    if (cashModel.cashType == 0) {
+      cashModel.price = cashModel.price.abs();
+    } else if (cashModel.cashType == 1) {
+      if (!cashModel.price.isNegative) {
+        cashModel.price = cashModel.price * -1;
+      }
+    }
     return cashModel;
   }
 
@@ -105,6 +121,7 @@ class CashProvider with ChangeNotifier {
     _activityController.text = model?.title ?? "";
     _dateController.text = model?.date ?? "";
     _priceController.text = model?.price.toString() ?? "";
+    _cashType = model?.cashType;
     notifyListeners();
   }
 
