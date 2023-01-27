@@ -9,8 +9,10 @@ import 'package:mydompet/widgets/custom_toast.dart';
 import 'package:provider/provider.dart';
 
 class HomeFormPage extends StatefulWidget {
-  static const routeName = "/homeform";
+  static const String routeName = "/formHome";
+
   const HomeFormPage({super.key});
+  
 
   @override
   State<HomeFormPage> createState() => _HomeFormPageState();
@@ -29,20 +31,39 @@ class _HomeFormPageState extends State<HomeFormPage> {
     super.dispose();
   }
 
-  void submit(BuildContext context) async {
-    final loader = context.loaderOverlay;
-    loader.show();
-    cashProvider.insertCash().then((value) {
-       loader.hide();
-      if (value.title.isNotEmpty) {
-        customToast("Add task success");
+  @override
+  void initState() {
+    super.initState();
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((timeStamp) {
+      if (cashProvider.idCash != null) {
+        cashProvider.fetchToController();
       }
     });
   }
 
+  void submit(BuildContext context) async {
+    final loader = context.loaderOverlay;
+    loader.show();
+    if (cashProvider.idCash != null) {
+      cashProvider.updateCash().then((value){
+        loader.hide();
+        if (value == 1) {
+          customToast("Update task success");
+        }
+      });
+    } else {
+      cashProvider.insertCash().then((value) {
+        loader.hide();
+        if (value.title.isNotEmpty) {
+          customToast("Add task success");
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    cashProvider = context.read<CashProvider>();
+    cashProvider = context.watch<CashProvider>();
     return Scaffold(
       appBar: const CustomAppBar(title: "Textone", canBack: true),
       resizeToAvoidBottomInset: false,
@@ -55,18 +76,18 @@ class _HomeFormPageState extends State<HomeFormPage> {
               children: [
                 verticalSpaceMD(),
                 CustomTextFields(
-                  title: "Kegiatan",
+                  title: "Activity",
                   controller: cashProvider.activityController
                 ),
                 verticalSpaceMD(),
                  CustomTextFields(
-                  title: "Harga",
+                  title: "Price",
                   inputType: TextInputType.number,
                   controller: cashProvider.priceController
                 ),
                 verticalSpaceMD(),
                  CustomTextFields(
-                  title: "Tanggal",
+                  title: "Date",
                   isDate: true,
                   controller: cashProvider.dateController
                 ),

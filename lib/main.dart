@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mydompet/pages/splash_screen/splash_screen.dart';
 import 'package:mydompet/providers/balance_provider.dart';
 import 'package:mydompet/providers/cash_provider.dart';
-import 'package:mydompet/route.dart';
+import 'package:mydompet/route.dart' as router;
 import 'package:provider/provider.dart';
 
 void main() {
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primaryColor: Colors.white54
           ),
-          routes: Routes.paths,
-          home: const SplashScreen(),
+          initialRoute: SplashScreen.routeName,
+          onGenerateRoute: router.generateRoute,
           debugShowCheckedModeBanner: false,
         ),
     );

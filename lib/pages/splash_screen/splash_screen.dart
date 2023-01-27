@@ -4,6 +4,7 @@ import 'package:mydompet/utils/asset.dart';
 import 'package:mydompet/utils/sizeconfig.dart';
 
 class SplashScreen extends StatefulWidget {
+  static const String routeName = '/splashScreen';
   const SplashScreen({super.key});
 
   @override

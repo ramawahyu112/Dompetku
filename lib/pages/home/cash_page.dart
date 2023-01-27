@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CashPage extends StatefulWidget {
+  static const routeName = '/cashpage';
   const CashPage({super.key});
 
   @override

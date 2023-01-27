@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-const String tableCash = 'cashflow';
-const String columnId = 'id';
+const String tableCash   = 'cashflow';
+const String columnId    = 'id';
 const String columnTitle = 'title';
 const String columnPrice = 'price';
-const String columnDate = 'date';
+const String columnDate  = 'date';
 
 class CashModel{
    int? id;

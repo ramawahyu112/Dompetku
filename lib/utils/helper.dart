@@ -2,6 +2,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mydompet/utils/dimen.dart';
 
 
@@ -21,5 +22,17 @@ Widget verticalSpaceMD(){
 
 Widget verticalSpaceLG(){
     return spacing(height: sizeLarge);
+}
+
+dynamic formatCurrency(dynamic number) {
+  if (number != null) {
+    NumberFormat format = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp',
+      decimalDigits: 2,    
+    );
+    return format.format(number);
+  }
+  return "0.0";
 }
 

@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mydompet/pages/home/cash_page.dart';
 import 'package:mydompet/pages/home/home_page.dart';
-import 'package:mydompet/providers/balance_provider.dart';
 import 'package:mydompet/utils/color.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:provider/provider.dart';
-
-import 'home/home_form_page.dart';
-
 class BottomNavigation extends StatefulWidget {
-  static const String routeName = '/bottomNavigation';
+  static const String routeName = 'bottomNavigation';
   const BottomNavigation({super.key});
 
   @override
@@ -54,7 +49,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
   }
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<BalanceProvider>();
     return PersistentTabView(context, 
       screens: _listWidget(),
       controller: _controller,
@@ -81,14 +75,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle: NavBarStyle.style15,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: bottomNavActive,
-        onPressed: () {
-          provider.setBalanceAmount = "1000000";
-          Navigator.pushNamed(context, HomeFormPage.routeName);
-        },
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
