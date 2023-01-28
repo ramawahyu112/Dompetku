@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../database/cash_database.dart';
 import '../models/cash_model.dart';
 
 class CashProvider with ChangeNotifier {
@@ -39,7 +40,7 @@ class CashProvider with ChangeNotifier {
   }
 
   set addBalance(val) {
-    _balanceAmount = (_balanceAmount?? 0.0) + val;
+    _balanceAmount = (_balanceAmount ?? 0.0) + val;
     notifyListeners();
   }
 
@@ -72,11 +73,11 @@ class CashProvider with ChangeNotifier {
   }
 
  Future<CashModel> insertCash() async {
-   var cashModel = fetchToModel();
-   var result = await database.insert(cashModel);
-   addCash = result;
-   addBalance = result.price;
-   return result;
+    var cashModel = fetchToModel();
+    var result = await database.insert(cashModel);
+    addCash = result;
+    addBalance = result.price;
+    return result;
   }
 
   Future<int> updateCash() async {
